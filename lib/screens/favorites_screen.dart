@@ -25,28 +25,28 @@ class FavoritesScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(24),
                 child: Text(
-                  'Du har inga sparade favoriter ännu.',
+                  'Du har inga sparade favoriter än.',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
             )
-          : ListView.builder(
+          : ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: trips.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final trip = trips[index];
 
                 return Card(
-                  margin: const EdgeInsets.only(bottom: 12),
                   child: ListTile(
                     leading: const Icon(Icons.favorite, color: Colors.red),
                     title: Text(trip.title),
-                    subtitle: Text('${trip.route} • ${trip.durationMinutes} min'),
+                    subtitle: Text('${trip.from} → ${trip.to} • ${trip.durationMinutes} min'),
                     trailing: IconButton(
                       onPressed: () => onRemoveFavorite(trip.id),
                       icon: const Icon(Icons.delete_outline),
-                      tooltip: 'Ta bort från favoriter',
+                      tooltip: 'Ta bort favorit',
                     ),
                   ),
                 );

@@ -12,39 +12,76 @@ class MapScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Container(
-          width: double.infinity,
-          height: double.infinity,
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(24),
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(28),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(12),
+                offset: const Offset(0, 4),
+                blurRadius: 12,
+              ),
+            ],
           ),
           child: Stack(
             children: [
-              Positioned(
-                left: 40,
-                top: 80,
-                child: _MapMarker(label: 'LTU', color: Colors.teal),
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  ),
+                ),
               ),
               Positioned(
-                right: 70,
-                top: 250,
-                child: _MapMarker(label: 'Centrum', color: Colors.orange),
+                left: 24,
+                top: 30,
+                child: _MapLocation(label: 'LTU', color: Colors.teal),
               ),
               Positioned(
-                left: 120,
-                bottom: 130,
-                child: _MapMarker(label: 'Busshållplats', color: Colors.indigo),
+                right: 30,
+                top: 120,
+                child: _MapLocation(label: 'Centrum', color: Colors.orange),
+              ),
+              Positioned(
+                left: 70,
+                bottom: 90,
+                child: _MapLocation(label: 'Bostad', color: Colors.indigo),
+              ),
+              Positioned(
+                left: 110,
+                top: 180,
+                child: _MapLocation(label: 'Busshållplats', color: Colors.purple),
               ),
               Positioned(
                 left: 90,
-                top: 180,
+                top: 170,
                 child: Container(
-                  width: 220,
-                  height: 180,
+                  width: 190,
+                  height: 170,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
+                    border: Border.all(color: Colors.grey.shade500, width: 2),
                     borderRadius: BorderRadius.circular(18),
                   ),
+                ),
+              ),
+              Positioned(
+                left: 40,
+                top: 90,
+                child: Container(
+                  width: 220,
+                  height: 2,
+                  color: Colors.grey.shade400,
+                ),
+              ),
+              Positioned(
+                left: 150,
+                top: 180,
+                child: Container(
+                  width: 2,
+                  height: 130,
+                  color: Colors.grey.shade400,
                 ),
               ),
             ],
@@ -55,11 +92,11 @@ class MapScreen extends StatelessWidget {
   }
 }
 
-class _MapMarker extends StatelessWidget {
+class _MapLocation extends StatelessWidget {
   final String label;
   final Color color;
 
-  const _MapMarker({
+  const _MapLocation({
     required this.label,
     required this.color,
   });
@@ -77,12 +114,12 @@ class _MapMarker extends StatelessWidget {
             border: Border.all(color: Colors.white, width: 2),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 6),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.12),
-            borderRadius: BorderRadius.circular(12),
+            color: color.withAlpha(35),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Text(label),
         ),

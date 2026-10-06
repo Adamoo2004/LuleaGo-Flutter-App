@@ -28,38 +28,71 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
     Trip(
       id: '1',
       title: 'Buss 1',
-      route: 'Universitetet → City Center',
+      from: 'Studentbostad',
+      to: 'Universitetet',
+      departure: '08:15',
       durationMinutes: 12,
-      stop: 'Busshållplats Luleå Södra',
+      stop: 'Luleå Södra',
       type: 'Buss',
+      price: 28,
+      rating: 4,
+      description: 'Direkt resa till campus via centrum.',
     ),
     Trip(
       id: '2',
       title: 'Buss 4',
-      route: 'Bergnäset → LTU',
+      from: 'Bergnäset',
+      to: 'LTU',
+      departure: '08:40',
       durationMinutes: 18,
       stop: 'Kyrkogatan',
       type: 'Buss',
+      price: 32,
+      rating: 5,
+      description: 'Snabb och enkel resa för studerande.',
     ),
     Trip(
       id: '3',
       title: 'Cykel',
-      route: 'Studentbostad → Campus',
+      from: 'Södra stan',
+      to: 'Campus',
+      departure: '09:00',
       durationMinutes: 10,
       stop: 'Cykelparkering',
       type: 'Cykel',
+      price: 0,
+      rating: 4,
+      description: 'Kort och miljövänlig väg till undervisning.',
     ),
     Trip(
       id: '4',
       title: 'Promenad',
-      route: 'Kulturhuset → Universitetet',
+      from: 'Kulturhuset',
+      to: 'Universitetet',
+      departure: '09:20',
       durationMinutes: 22,
       stop: 'Entrévägen',
       type: 'Promenad',
+      price: 0,
+      rating: 5,
+      description: 'Bra val om du vill röra på dig.',
+    ),
+    Trip(
+      id: '5',
+      title: 'Buss 7',
+      from: 'Norrbotten',
+      to: 'City Center',
+      departure: '10:05',
+      durationMinutes: 15,
+      stop: 'Storgatan',
+      type: 'Buss',
+      price: 28,
+      rating: 4,
+      description: 'Tålig och enkel resa in till centrum.',
     ),
   ];
 
-  final List<String> _favoriteTripIds = [];
+  final List<String> _favoriteTripIds = ['1', '3'];
 
   void _toggleFavorite(String tripId) {
     setState(() {
@@ -71,9 +104,8 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
     });
   }
 
-  List<Trip> get _favoriteTrips {
-    return _trips.where((trip) => _favoriteTripIds.contains(trip.id)).toList();
-  }
+  List<Trip> get _favoriteTrips =>
+      _trips.where((trip) => _favoriteTripIds.contains(trip.id)).toList();
 
   void _changeTab(int index) {
     setState(() {
@@ -85,9 +117,9 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
   Widget build(BuildContext context) {
     final screens = [
       HomeScreen(
-        onNavigate: _changeTab,
         trips: _trips,
         favoriteTrips: _favoriteTrips,
+        onNavigate: _changeTab,
         largeText: _largeText,
       ),
       TripsScreen(
@@ -119,8 +151,9 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
+        scaffoldBackgroundColor: const Color(0xFFF5F7FA),
         textTheme: _largeText
-            ? ThemeData.light().textTheme.apply(fontSizeFactor: 1.2)
+            ? ThemeData.light().textTheme.apply(fontSizeFactor: 1.12)
             : ThemeData.light().textTheme,
       ),
       darkTheme: ThemeData(
@@ -130,8 +163,9 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
+        scaffoldBackgroundColor: const Color(0xFF10131B),
         textTheme: _largeText
-            ? ThemeData.dark().textTheme.apply(fontSizeFactor: 1.2)
+            ? ThemeData.dark().textTheme.apply(fontSizeFactor: 1.12)
             : ThemeData.dark().textTheme,
       ),
       home: Scaffold(
@@ -143,14 +177,35 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
           selectedIndex: _selectedIndex,
           onDestinationSelected: _changeTab,
           destinations: const [
-            NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: 'Hem'),
-            NavigationDestination(icon: Icon(Icons.directions_transit_outlined), selectedIcon: Icon(Icons.directions_transit), label: 'Resor'),
-            NavigationDestination(icon: Icon(Icons.map_outlined), selectedIcon: Icon(Icons.map), label: 'Karta'),
-            NavigationDestination(icon: Icon(Icons.favorite_border), selectedIcon: Icon(Icons.favorite), label: 'Favoriter'),
-            NavigationDestination(icon: Icon(Icons.settings_outlined), selectedIcon: Icon(Icons.settings), label: 'Inställningar'),
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home),
+              label: 'Hem',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.directions_transit_outlined),
+              selectedIcon: Icon(Icons.directions_transit),
+              label: 'Resor',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.map_outlined),
+              selectedIcon: Icon(Icons.map),
+              label: 'Karta',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.favorite_border),
+              selectedIcon: Icon(Icons.favorite),
+              label: 'Favoriter',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.settings_outlined),
+              selectedIcon: Icon(Icons.settings),
+              label: 'Inställningar',
+            ),
           ],
         ),
       ),
     );
   }
 }
+

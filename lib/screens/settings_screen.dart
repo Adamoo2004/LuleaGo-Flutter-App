@@ -27,28 +27,47 @@ class SettingsScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('Studentprofil'),
+              subtitle: const Text('Luleå universitet'),
+            ),
+          ),
+          const SizedBox(height: 12),
           SwitchListTile(
             title: const Text('Mörkt läge'),
-            subtitle: const Text('Ändra appens tema'),
+            subtitle: const Text('Anpassa appens tema'),
             value: darkMode,
             onChanged: onDarkModeChanged,
             secondary: const Icon(Icons.dark_mode),
           ),
-          const SizedBox(height: 8),
           SwitchListTile(
             title: const Text('Större text'),
-            subtitle: const Text('Ökar läsbarheten'),
+            subtitle: const Text('För bättre läsbarhet'),
             value: largeText,
             onChanged: onLargeTextChanged,
             secondary: const Icon(Icons.text_fields),
           ),
-          const SizedBox(height: 8),
           SwitchListTile(
             title: const Text('Aviseringar'),
-            subtitle: const Text('Mottag reminder om resor'),
+            subtitle: const Text('Påminnelser om kommande resor'),
             value: notifications,
             onChanged: onNotificationsChanged,
             secondary: const Icon(Icons.notifications_active),
+          ),
+          const SizedBox(height: 16),
+          ListTile(
+            leading: const Icon(Icons.language),
+            title: const Text('Språk'),
+            subtitle: const Text('Svenska'),
+            trailing: const Icon(Icons.chevron_right),
+          ),
+          ListTile(
+            leading: const Icon(Icons.accessibility_new),
+            title: const Text('Tillgänglighet'),
+            subtitle: const Text('Stor text, tydliga ikoner'),
+            trailing: const Icon(Icons.chevron_right),
           ),
         ],
       ),
