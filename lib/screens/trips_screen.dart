@@ -32,12 +32,7 @@ class TripsScreen extends StatelessWidget {
 
           return InkWell(
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('${trip.title} valdes • ${trip.departure}'),
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
+              _showTripDetails(context, trip);
             },
             borderRadius: BorderRadius.circular(22),
             child: Container(
@@ -124,6 +119,71 @@ class TripsScreen extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+
+  void _showTripDetails(BuildContext context, Trip trip) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(trip.title),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Från: ${trip.from}'),
+            const SizedBox(height: 8),
+            Text('Till: ${trip.to}'),
+            const SizedBox(height: 8),
+            Text('Avgång: ${trip.departure}'),
+            const SizedBox(height: 8),
+            Text('Restid: ${trip.durationMinutes} minuter'),
+            const SizedBox(height: 8),
+            Text('Hållplats: ${trip.stop}'),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Pris:',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    '${trip.price} kr',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Avbryt'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Biljett köpt för ${trip.title} - ${trip.price} kr'),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
+            },
+            child: const Text('Köp biljett'),
+          ),
+        ],
       ),
     );
   }
