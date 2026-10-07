@@ -23,6 +23,7 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
   bool _darkMode = false;
   bool _largeText = false;
   bool _notifications = true;
+  Trip? _purchasedTrip;
 
   final List<Trip> _trips = [
     Trip(
@@ -52,32 +53,6 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
       description: 'Snabb och enkel resa för studerande.',
     ),
     Trip(
-      id: '3',
-      title: 'Cykel',
-      from: 'Södra stan',
-      to: 'Campus',
-      departure: '09:00',
-      durationMinutes: 10,
-      stop: 'Cykelparkering',
-      type: 'Cykel',
-      price: 0,
-      rating: 4,
-      description: 'Kort och miljövänlig väg till undervisning.',
-    ),
-    Trip(
-      id: '4',
-      title: 'Promenad',
-      from: 'Kulturhuset',
-      to: 'Universitetet',
-      departure: '09:20',
-      durationMinutes: 22,
-      stop: 'Entrévägen',
-      type: 'Promenad',
-      price: 0,
-      rating: 5,
-      description: 'Bra val om du vill röra på dig.',
-    ),
-    Trip(
       id: '5',
       title: 'Buss 7',
       from: 'Norrbotten',
@@ -86,13 +61,26 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
       durationMinutes: 15,
       stop: 'Storgatan',
       type: 'Buss',
-      price: 28,
+      price: 20,
       rating: 4,
       description: 'Tålig och enkel resa in till centrum.',
     ),
+    Trip(
+      id: '6',
+      title: 'Buss 2',
+      from: 'Malmvägen',
+      to: 'Campus',
+      departure: '11:20',
+      durationMinutes: 16,
+      stop: 'Centralstationen',
+      type: 'Buss',
+      price: 24,
+      rating: 4,
+      description: 'Bra alternativ för studenter som åker till undervisning.',
+    ),
   ];
 
-  final List<String> _favoriteTripIds = ['1', '3'];
+  final List<String> _favoriteTripIds = ['1'];
 
   void _toggleFavorite(String tripId) {
     setState(() {
@@ -101,6 +89,12 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
       } else {
         _favoriteTripIds.add(tripId);
       }
+    });
+  }
+
+  void _purchaseTrip(Trip trip) {
+    setState(() {
+      _purchasedTrip = trip;
     });
   }
 
@@ -121,12 +115,14 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
         favoriteTrips: _favoriteTrips,
         onNavigate: _changeTab,
         largeText: _largeText,
+        purchasedTrip: _purchasedTrip,
       ),
       TripsScreen(
         trips: _trips,
         favoriteIds: _favoriteTripIds,
         onToggleFavorite: _toggleFavorite,
         largeText: _largeText,
+        onTripPurchased: _purchaseTrip,
       ),
       const MapScreen(),
       FavoritesScreen(
@@ -152,9 +148,6 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
         scaffoldBackgroundColor: const Color(0xFFF5F7FA),
-        textTheme: _largeText
-            ? ThemeData.light().textTheme.apply(fontSizeFactor: 1.12)
-            : ThemeData.light().textTheme,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
@@ -164,10 +157,18 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
         ),
         useMaterial3: true,
         scaffoldBackgroundColor: const Color(0xFF10131B),
-        textTheme: _largeText
-            ? ThemeData.dark().textTheme.apply(fontSizeFactor: 1.12)
-            : ThemeData.dark().textTheme,
       ),
+      builder: (context, child) {
+        final mediaQuery = MediaQuery.of(context);
+        return MediaQuery(
+          data: mediaQuery.copyWith(
+            textScaler: _largeText
+                ? const TextScaler.linear(1.12)
+                : TextScaler.noScaling,
+          ),
+          child: child!,
+        );
+      },
       home: Scaffold(
         body: IndexedStack(
           index: _selectedIndex,
@@ -208,4 +209,3 @@ class _LuleaGoAppState extends State<LuleaGoApp> {
     );
   }
 }
-
